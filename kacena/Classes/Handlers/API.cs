@@ -212,9 +212,9 @@ namespace kacena.Classes.Handlers
                     ContextRequest req = await ProcessRequestAsync(context);
                     if (!req.writeAsBytes && req.success && req.result != null && req.result.results != null)
                     {
-                        if(req.result.results.Length > 1)
+                        if (req.result.results.Length > 1 || req.result.results.Length == 0)
                             writer.Write(new(req.result.code, req.result.results));
-                        else if(req.result.results.Length == 1)
+                        else if (req.result.results.Length == 1)
                             writer.Write(new(req.result.code, req.result.results.First()));
                     }
                     else if (req.bytesToWrite != null)

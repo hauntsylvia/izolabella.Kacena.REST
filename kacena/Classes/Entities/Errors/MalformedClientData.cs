@@ -7,11 +7,11 @@ using kacena.Classes.Interfaces.Entities.Errors;
 using kacena.Classes.Enums.ResponseCodes;
 using kacena.Classes.Bases;
 
-namespace kacena.Classes.Entities.Error
+namespace kacena.Classes.Entities.Errors
 {
-    public class InternalError : HTTPResponseError
+    public class MalformedClientData : HTTPResponseError
     {
-        public InternalError(string message = "The server encountered an error while trying to process your request.") : base(HTTPResponseCode.internalError, message)
+        public MalformedClientData(string message = "Malformed client data.") : base(HTTPResponseCode.badRequest, message)
         {
         }
     }
