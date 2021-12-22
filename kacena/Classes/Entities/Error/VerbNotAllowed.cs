@@ -7,7 +7,7 @@ using kacena.Classes.Interfaces.Entities.Errors;
 using kacena.Classes.Enums.ResponseCodes;
 using kacena.Classes.Bases;
 
-namespace kacena.Classes.Entities.Errors
+namespace kacena.Classes.Entities.Error
 {
     public class VerbNotAllowed : HTTPResponseError
     {

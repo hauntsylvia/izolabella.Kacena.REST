@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using kacena.Classes.Interfaces.Entities.Errors;
 
-namespace kacena.Classes.Entities.Errors
+namespace kacena.Classes.Entities.Error
 {
     public class NotImplemented : HTTPResponseError
     {
