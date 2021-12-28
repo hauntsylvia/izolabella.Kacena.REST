@@ -31,21 +31,21 @@ namespace kacena.Classes.Handlers
         {
             byte[] bitebitebite = Encoding.UTF8.GetBytes(write);
             this.context.Response.KeepAlive = false;
-            WriteRawBytes(bitebitebite);
+            this.WriteRawBytes(bitebitebite);
         }
 
 
         public void Write(APIWriterArgs write)
         {
             this.context.Response.StatusCode = (int)write.code;
-            WriteRaw(JsonConvert.SerializeObject(write.payload, Formatting.None));
+            this.WriteRaw(JsonConvert.SerializeObject(write.payload, Formatting.None));
         }
 
 
         public void Throw(IHTTPResponseError error)
         {
             this.context.Response.StatusCode = (int)error.code;
-            WriteRaw(JsonConvert.SerializeObject(error, Formatting.Indented));
+            this.WriteRaw(JsonConvert.SerializeObject(error, Formatting.Indented));
             throw new Exception(error.message);
         }
     }
