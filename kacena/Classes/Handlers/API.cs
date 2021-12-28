@@ -111,12 +111,12 @@ namespace kacena.Classes.Handlers
                 string[] segments = context.Request.Url.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
                 if (segments.Length > 1)
                 {
-                    if(controllers.Length > 0)
+                    if(this.controllers.Length > 0)
                     {
-                        IController? controller = FindRequestedController(context);
+                        IController? controller = this.FindRequestedController(context);
                         if(controller != null)
                         {
-                            MethodInfo? controllerMethod = FindRequestedMethod(context, controller);
+                            MethodInfo? controllerMethod = this.FindRequestedMethod(context, controller);
                             if (controllerMethod != null)
                             {
                                 dynamic? caller = this.authorizeAPICaller?.Invoke(context.Request);
@@ -187,7 +187,7 @@ namespace kacena.Classes.Handlers
                 else if (segments.Length > 0 && segments[0] == "favicon.ico")
                 {
                     ContextRequest req = new(null, null);
-                    req.bytesToWrite = File.ReadAllBytes(favicon.FullName);
+                    req.bytesToWrite = File.ReadAllBytes(this.favicon.FullName);
                     req.writeAsBytes = true;
                     return req;
                 }
@@ -208,8 +208,8 @@ namespace kacena.Classes.Handlers
                 {
                     HttpListenerContext context = await _listener.GetContextAsync();
                     APIWriter writer = new(context);
-                    authorizeAPICaller?.Invoke(context.Request);
-                    ContextRequest req = await ProcessRequestAsync(context);
+                    this.authorizeAPICaller?.Invoke(context.Request);
+                    ContextRequest req = await this.ProcessRequestAsync(context);
                     if (!req.writeAsBytes && req.success && req.result != null && req.result.results != null)
                     {
                         if (req.result.results.Length > 1 || req.result.results.Length == 0)
