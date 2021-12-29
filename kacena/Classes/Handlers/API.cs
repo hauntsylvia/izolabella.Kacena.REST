@@ -90,10 +90,9 @@ namespace kacena.Classes.Handlers
                 foreach (MethodInfo method in controller.GetType().GetMethods(bindingAttr: BindingFlags.Public | BindingFlags.Instance))
                 {
                     Uri? methodUri = null;
-                    Route? routingUrlAttr = method.GetCustomAttribute(typeof(Route), false) as Route;
-                    if(this.MethodIsResourceIdentificationHandler(method))
+                    if (this.MethodIsResourceIdentificationHandler(method))
                         rIdHandlerMethod = method;
-                    methodUri = routingUrlAttr != null ? new Uri(this.uri, $"{controller.serviceName}{routingUrlAttr.relativeUri}") : null;
+                    methodUri = method.GetCustomAttribute(typeof(Route), false) is Route routingUrlAttr ? new Uri(this.uri, $"{controller.serviceName}{routingUrlAttr.relativeUri}") : null;
                     object[] customAttributes = method.GetCustomAttributes(typeof(IHTTPAttribute), false);
                     IHTTPAttribute[] methodVerbs = new IHTTPAttribute[customAttributes.Length];
                     for (int i = 0; i < customAttributes.Length; i++)
