@@ -7,25 +7,14 @@ using System.Threading.Tasks;
 
 namespace kacena.Classes.Arguments
 {
-    public class APIFormUrlEncodedCall
+    public class APIFormUrlEncodedCall : APIBaseCall
     {
-        public U? GetCaller<U>() where U : class
-        {
-            return this.caller as U;
-        }
-
-
-        private readonly object? _caller;
-        internal object? caller => _caller;
-
-
         private readonly Dictionary<string, string> _query;
         public Dictionary<string, string> query => _query;
 
 
-        public APIFormUrlEncodedCall(object? caller, Dictionary<string, string> query)
+        public APIFormUrlEncodedCall(object? caller, Dictionary<string, string> query) : base(caller)
         {
-            this._caller = caller;
             this._query = query;
         }
     }

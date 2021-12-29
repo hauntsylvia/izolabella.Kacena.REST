@@ -61,6 +61,12 @@ namespace kacena.Classes.Handlers
         }
 
 
+        private bool MethodIsResourceIdentificationHandler(MethodInfo? m)
+        {
+            return m != null && m.GetCustomAttribute(typeof(ResourceIdentificationHandler), false) as ResourceIdentificationHandler != null;
+        }
+
+
         private IController? FindRequestedController(HttpListenerContext context)
         {
             if (context.Request.Url != null)
@@ -74,19 +80,19 @@ namespace kacena.Classes.Handlers
                 return null;
         }
 
-
         private MethodInfo? FindRequestedMethod(HttpListenerContext context, IController controller)
         {
             if(context.Request.Url != null)
             {
                 string[] segments = context.Request.Url.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
                 string routeTo = segments[1];
+                MethodInfo? rIdHandlerMethod = null;
                 foreach (MethodInfo method in controller.GetType().GetMethods(bindingAttr: BindingFlags.Public | BindingFlags.Instance))
                 {
                     Uri? methodUri = null;
-                    Route? routingUrlAttr = null;
-                    Attribute? preRoutingUrlAttr = method.GetCustomAttribute(typeof(Route), false);
-                    routingUrlAttr = preRoutingUrlAttr != null ? (Route)preRoutingUrlAttr : null;
+                    Route? routingUrlAttr = method.GetCustomAttribute(typeof(Route), false) as Route;
+                    if(this.MethodIsResourceIdentificationHandler(method))
+                        rIdHandlerMethod = method;
                     methodUri = routingUrlAttr != null ? new Uri(this.uri, $"{controller.serviceName}{routingUrlAttr.relativeUri}") : null;
                     object[] customAttributes = method.GetCustomAttributes(typeof(IHTTPAttribute), false);
                     IHTTPAttribute[] methodVerbs = new IHTTPAttribute[customAttributes.Length];
@@ -96,6 +102,7 @@ namespace kacena.Classes.Handlers
                     if (verbAllowed && methodUri != null && methodUri.GetComponents(UriComponents.Path, UriFormat.UriEscaped).ToLower() == context.Request.Url.GetComponents(UriComponents.Path, UriFormat.UriEscaped).ToLower())
                         return method;
                 }
+                return rIdHandlerMethod;
             }
             return null;
         }
@@ -119,6 +126,7 @@ namespace kacena.Classes.Handlers
                             MethodInfo? controllerMethod = this.FindRequestedMethod(context, controller);
                             if (controllerMethod != null)
                             {
+                                bool isRecId = this.MethodIsResourceIdentificationHandler(controllerMethod);
                                 dynamic? caller = this.authorizeAPICaller?.Invoke(context.Request);
                                 object? invokeParam;
                                 if (context.Request.HttpMethod.ToUpper() == "POST" || context.Request.HttpMethod.ToUpper() == "PUT") // post req
@@ -165,7 +173,8 @@ namespace kacena.Classes.Handlers
                                             formUrlEncodedContent.Add(key, val);
                                     }
                                 }
-                                object? resultOfRequest = controllerMethod.Invoke(controller, new[] { invokeParam });
+                                _ = ulong.TryParse(context.Request.Url.Segments.Last(), out ulong ifRecIdReq);
+                                object? resultOfRequest = controllerMethod.Invoke(controller, isRecId ? new[] { invokeParam, new APIResourceIdentificationCall(caller, ifRecIdReq) } : new[] { invokeParam });
                                 if (resultOfRequest != null && resultOfRequest.GetType() == typeof(HTTPResult<IEntity>))
                                 {
                                     HTTPResult<IEntity> finalResult = (HTTPResult<IEntity>)resultOfRequest;

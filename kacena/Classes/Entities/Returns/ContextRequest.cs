@@ -27,13 +27,7 @@ namespace kacena.Classes.Entities.Returns
         public bool writeAsBytes 
         { 
             get => _writeAsBytes;
-            set
-            {
-                if (bytesToWrite != null && value)
-                    _writeAsBytes = value;
-                else
-                    throw new ArgumentNullException(paramName: nameof(value), message: $"You must set {nameof(bytesToWrite)} to a value before setting {nameof(writeAsBytes)} to {value}.");
-            }
+            set => _writeAsBytes = value;
         }
 
 

@@ -21,6 +21,7 @@ namespace kacena.Classes.Handlers
         }
         public async void WriteRawBytes(byte[] bitebite)
         {
+            this.context.Response.StatusCode = this.context.Response.StatusCode == default ? 200 : this.context.Response.StatusCode;
             if (this.context.Response.OutputStream.CanWrite)
                 await this.context.Response.OutputStream.WriteAsync(bitebite);
             this.context.Response.Close();
