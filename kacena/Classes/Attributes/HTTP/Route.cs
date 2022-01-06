@@ -13,7 +13,11 @@ namespace kacena.Classes.Attributes.HTTP
         public string relativeUri => _url;
         public Route(string routeTo)
         {
-            this._url = routeTo.StartsWith("/") ? routeTo : throw new ArgumentException($"{nameof(routeTo)} must start with a '/'");
+            this._url = 
+                routeTo.StartsWith("/") && !routeTo.EndsWith("/") ?     routeTo : 
+                !routeTo.StartsWith("/") && routeTo.EndsWith("/") ?     $"/{routeTo[0..^1]}" :
+                routeTo.StartsWith("/") && routeTo.EndsWith("/") ?      $"{routeTo[0..^1]}" :
+                                                                        $"/{routeTo}";
         }
     }
 }
