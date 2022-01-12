@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace kacena.Classes.Attributes.HTTP
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class HTTPPut : Attribute, IHTTPAttribute
+    public class HTTPPatch : Attribute, IHTTPAttribute
     {
         public string verb => "PUT";
     }

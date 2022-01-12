@@ -61,7 +61,7 @@ namespace kacena.Classes.Handlers
         }
 
 
-        private bool MethodIsResourceIdentificationHandler(MethodInfo? m)
+        private static bool MethodIsResourceIdentificationHandler(MethodInfo? m)
         {
             return m != null && m.GetCustomAttribute(typeof(ResourceIdentificationHandler), false) as ResourceIdentificationHandler != null;
         }
@@ -90,7 +90,7 @@ namespace kacena.Classes.Handlers
                 foreach (MethodInfo method in controller.GetType().GetMethods(bindingAttr: BindingFlags.Public | BindingFlags.Instance))
                 {
                     Uri? methodUri = null;
-                    if (this.MethodIsResourceIdentificationHandler(method))
+                    if (MethodIsResourceIdentificationHandler(method))
                         rIdHandlerMethod = method;
                     methodUri = method.GetCustomAttribute(typeof(Route), false) is Route routingUrlAttr ? new Uri(this.uri, $"{controller.serviceName}{routingUrlAttr.relativeUri}") : null;
                     object[] customAttributes = method.GetCustomAttributes(typeof(IHTTPAttribute), false);
@@ -125,10 +125,10 @@ namespace kacena.Classes.Handlers
                             MethodInfo? controllerMethod = this.FindRequestedMethod(context, controller);
                             if (controllerMethod != null)
                             {
-                                bool isRecId = this.MethodIsResourceIdentificationHandler(controllerMethod);
+                                bool isRecId = MethodIsResourceIdentificationHandler(controllerMethod);
                                 dynamic? caller = this.authorizeAPICaller?.Invoke(context.Request);
                                 object? invokeParam;
-                                if (context.Request.HttpMethod.ToUpper() == "POST" || context.Request.HttpMethod.ToUpper() == "PUT") // post req
+                                if (context.Request.HttpMethod.ToUpper() == "POST" || context.Request.HttpMethod.ToUpper() == "PUT" || context.Request.HttpMethod.ToUpper() == "PUT") // post req
                                 {
                                     object? sentEntity = null;
                                     Type controllerMethodExpectsThis = controllerMethod.GetParameters().First().ParameterType; // jsoncontcall<zenouser>
