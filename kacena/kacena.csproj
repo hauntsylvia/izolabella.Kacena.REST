@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\zenosyne.helper\zenosyne.helper.csproj" />
+    <ProjectReference Include="..\..\zenosyne\zenosyne.helper\zenosyne.helper.csproj" />
   </ItemGroup>
 
 </Project>
