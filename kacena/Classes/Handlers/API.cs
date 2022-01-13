@@ -128,7 +128,7 @@ namespace kacena.Classes.Handlers
                                 bool isRecId = MethodIsResourceIdentificationHandler(controllerMethod);
                                 dynamic? caller = this.authorizeAPICaller?.Invoke(context.Request);
                                 object? invokeParam;
-                                if (context.Request.HttpMethod.ToUpper() == "POST" || context.Request.HttpMethod.ToUpper() == "PUT" || context.Request.HttpMethod.ToUpper() == "PUT") // post req
+                                if (context.Request.HttpMethod.ToUpper() == "POST" || context.Request.HttpMethod.ToUpper() == "PUT" || context.Request.HttpMethod.ToUpper() == "PATCH" && controllerMethod.GetParameters().First().ParameterType != typeof(APIFormUrlEncodedCall) && controllerMethod.GetParameters().First().ParameterType != typeof(APIResourceIdentificationCall)) // post req
                                 {
                                     object? sentEntity = null;
                                     Type controllerMethodExpectsThis = controllerMethod.GetParameters().First().ParameterType; // jsoncontcall<zenouser>
