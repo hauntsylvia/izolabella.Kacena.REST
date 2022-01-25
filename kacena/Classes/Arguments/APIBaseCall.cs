@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace kacena.Classes.Arguments
+﻿namespace kacena.Classes.Arguments
 {
     public class APIBaseCall
     {
         public U? GetCaller<U>() where U : class
         {
-            return this.caller as U;
+            return this.Caller as U;
         }
 
 
         private readonly object? _caller;
-        public object? caller => _caller;
+        public object? Caller => this._caller;
 
 
         public APIBaseCall(object? caller)

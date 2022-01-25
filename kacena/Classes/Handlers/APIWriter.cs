@@ -1,19 +1,15 @@
 ﻿using kacena.Classes.Arguments;
 using kacena.Classes.Interfaces.Entities.Errors;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace kacena.Classes.Handlers
 {
     public class APIWriter
     {
         private readonly HttpListenerContext _context;
-        public HttpListenerContext context => _context;
+        public HttpListenerContext context => this._context;
 
         public APIWriter(HttpListenerContext context)
         {

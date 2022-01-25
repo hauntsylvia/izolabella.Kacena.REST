@@ -1,10 +1,5 @@
 ﻿using kacena.Classes.Enums.ResponseCodes;
 using kacena.Classes.Interfaces.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace kacena.Classes.Entities.Returns
 {

@@ -1,17 +1,16 @@
-﻿using kacena.Classes.Attributes.HTTP;
+﻿using kacena.Classes.Arguments;
+using kacena.Classes.Attributes.HTTP;
+using kacena.Classes.Entities.Errors;
 using kacena.Classes.Entities.Returns;
 using kacena.Classes.Interfaces.Attributes.HTTP;
 using kacena.Classes.Interfaces.Bases;
 using kacena.Classes.Interfaces.Entities;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections.Specialized;
 using System.Net;
 using System.Reflection;
-using kacena.Classes.Entities.Errors;
-using kacena.Classes.Arguments;
-using Newtonsoft.Json;
 using System.Web;
-using System.Collections.Specialized;
-using Newtonsoft.Json.Linq;
-using System.Text;
 
 namespace kacena.Classes.Handlers
 {
@@ -21,43 +20,43 @@ namespace kacena.Classes.Handlers
         // netsh http add urlacl url="http://*:21621/" user=everyone
         // netsh http add urlacl url="https://*:443/" user=everyone
         //server.Prefixes.Add("http://*:21621/");
-        private Func<HttpListenerRequest, dynamic?>? _authorizeAPICaller;
-        public Func<HttpListenerRequest, dynamic?>? authorizeAPICaller { get => _authorizeAPICaller; set => _authorizeAPICaller = value; }
+        private Func<HttpListenerRequest, dynamic?>? authorizeAPICaller;
+        public Func<HttpListenerRequest, dynamic?>? AuthorizeAPICaller { get => this.authorizeAPICaller; set => this.authorizeAPICaller = value; }
 
 
-        private FileInfo _favicon;
-        public FileInfo favicon { get => _favicon; set => _favicon = value == null ? throw new ArgumentNullException(nameof(value)) : (value.Exists ? value : throw new FileNotFoundException(nameof(value))); }
+        private FileInfo favicon;
+        public FileInfo Favicon { get => this.favicon; set => this.favicon = value == null ? throw new ArgumentNullException(nameof(value)) : (value.Exists ? value : throw new FileNotFoundException(nameof(value))); }
 
 
-        private readonly Uri _uri;
-        public Uri uri => _uri;
+        private readonly Uri uri;
+        public Uri Uri => this.uri;
 
 
-        private readonly IController[] _controllers;
-        public IController[] controllers => _controllers;
+        private readonly IController[] controllers;
+        public IController[] Controllers => this.controllers;
 
 
-        private readonly HttpListener _listener;
-        public HttpListener listener => _listener;
+        private readonly HttpListener listener;
+        public HttpListener Listener => this.listener;
 
 
         public API(HttpListener listener, FileInfo favicon)
         {
             Type[] ts = Assembly.GetCallingAssembly().GetTypes().Where(x => x.GetInterfaces().Contains(typeof(IController))).ToArray();
-            this._controllers = new IController[ts.Length];
+            this.controllers = new IController[ts.Length];
             for (int i = 0; i < ts.Length; i++)
             {
                 Route? controllerRoute = (Route?)ts[i].GetCustomAttribute(typeof(Route));
-                if(controllerRoute != null)
+                if (controllerRoute != null)
                 {
-                    object? controller = Activator.CreateInstance(type: ts[i], args: new object[] { this, controllerRoute.relativeUri.Split('/')[1] }, bindingAttr: BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, binder: null, culture: null);
+                    object? controller = Activator.CreateInstance(type: ts[i], args: new object[] { this, controllerRoute.relativeUri.Split('/')[1] }, bindingAttr: BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, binder: null, culture: null);
                     if (controller != null)
-                        this._controllers[i] = (IController)controller;
+                        this.controllers[i] = (IController)controller;
                 }
             }
-            this._uri = new(listener.Prefixes.First());
-            this._listener = listener;
-            this._favicon = favicon;
+            this.uri = new(listener.Prefixes.First());
+            this.listener = listener;
+            this.favicon = favicon;
         }
 
 
@@ -73,7 +72,7 @@ namespace kacena.Classes.Handlers
             {
                 string[] segments = context.Request.Url.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
                 string service = segments[0];
-                IController[] controllers = this.controllers.Where(c => c.serviceName.ToUpper() == service.ToUpper()).ToArray();
+                IController[] controllers = this.Controllers.Where(c => c.serviceName.ToUpper() == service.ToUpper()).ToArray();
                 return controllers.Length > 0 ? controllers.First() : null;
             }
             else
@@ -82,7 +81,7 @@ namespace kacena.Classes.Handlers
 
         private MethodInfo? FindRequestedMethod(HttpListenerContext context, IController controller)
         {
-            if(context.Request.Url != null)
+            if (context.Request.Url != null)
             {
                 string[] segments = context.Request.Url.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
                 string routeTo = segments[1];
@@ -92,7 +91,7 @@ namespace kacena.Classes.Handlers
                     Uri? methodUri = null;
                     if (MethodIsResourceIdentificationHandler(method))
                         rIdHandlerMethod = method;
-                    methodUri = method.GetCustomAttribute(typeof(Route), false) is Route routingUrlAttr ? new Uri(this.uri, $"{controller.serviceName}{routingUrlAttr.relativeUri}") : null;
+                    methodUri = method.GetCustomAttribute(typeof(Route), false) is Route routingUrlAttr ? new Uri(this.Uri, $"{controller.serviceName}{routingUrlAttr.relativeUri}") : null;
                     object[] customAttributes = method.GetCustomAttributes(typeof(IHTTPAttribute), false);
                     IHTTPAttribute[] methodVerbs = new IHTTPAttribute[customAttributes.Length];
                     for (int i = 0; i < customAttributes.Length; i++)
@@ -117,18 +116,18 @@ namespace kacena.Classes.Handlers
                 string[] segments = context.Request.Url.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
                 if (segments.Length > 1)
                 {
-                    if(this.controllers.Length > 0)
+                    if (this.Controllers.Length > 0)
                     {
                         IController? controller = this.FindRequestedController(context);
-                        if(controller != null)
+                        if (controller != null)
                         {
                             MethodInfo? controllerMethod = this.FindRequestedMethod(context, controller);
                             if (controllerMethod != null)
                             {
                                 bool isRecId = MethodIsResourceIdentificationHandler(controllerMethod);
-                                dynamic? caller = this.authorizeAPICaller?.Invoke(context.Request);
+                                dynamic? caller = this.AuthorizeAPICaller?.Invoke(context.Request);
                                 object? invokeParam;
-                                if (context.Request.HttpMethod.ToUpper() == "POST" || context.Request.HttpMethod.ToUpper() == "PUT" || context.Request.HttpMethod.ToUpper() == "PATCH" && controllerMethod.GetParameters().First().ParameterType != typeof(APIFormUrlEncodedCall) && controllerMethod.GetParameters().First().ParameterType != typeof(APIResourceIdentificationCall)) // post req
+                                if (context.Request.HttpMethod.ToUpper() == "POST" || context.Request.HttpMethod.ToUpper() == "PUT" || (context.Request.HttpMethod.ToUpper() == "PATCH" && controllerMethod.GetParameters().First().ParameterType != typeof(APIFormUrlEncodedCall) && controllerMethod.GetParameters().First().ParameterType != typeof(APIResourceIdentificationCall))) // post req
                                 {
                                     object? sentEntity = null;
                                     Type controllerMethodExpectsThis = controllerMethod.GetParameters().First().ParameterType; // jsoncontcall<zenouser>
@@ -195,7 +194,7 @@ namespace kacena.Classes.Handlers
                 else if (segments.Length > 0 && segments[0] == "favicon.ico")
                 {
                     ContextRequest req = new(null, null);
-                    req.bytesToWrite = File.ReadAllBytes(this.favicon.FullName);
+                    req.bytesToWrite = File.ReadAllBytes(this.Favicon.FullName);
                     req.writeAsBytes = true;
                     return req;
                 }
@@ -209,14 +208,14 @@ namespace kacena.Classes.Handlers
 
         public async void Listen()
         {
-            _listener.IgnoreWriteExceptions = true;
-            _listener.Start();
+            this.listener.IgnoreWriteExceptions = true;
+            this.listener.Start();
             while (true)
                 try
                 {
-                    HttpListenerContext context = await _listener.GetContextAsync();
+                    HttpListenerContext context = await this.listener.GetContextAsync();
                     APIWriter writer = new(context);
-                    this.authorizeAPICaller?.Invoke(context.Request);
+                    this.AuthorizeAPICaller?.Invoke(context.Request);
                     ContextRequest req = await this.ProcessRequestAsync(context);
                     if (!req.writeAsBytes && req.success && req.result != null && req.result.results != null)
                     {
