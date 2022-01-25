@@ -153,10 +153,10 @@ namespace kacena.Classes.Handlers
                                         if (param != null)
                                             invokeParam = param;
                                         else
-                                            return new(new InternalError(), null);
+                                            return new(new InternalError(), SingleResult: null);
                                     }
                                     else  // client must have an entity in a post request
-                                        return new(new MalformedClientData(), null);
+                                        return new(new MalformedClientData(), SingleResult: null);
                                 }
                                 else // form url encoded content is expected (or no content)
                                 {
@@ -173,36 +173,40 @@ namespace kacena.Classes.Handlers
                                 }
                                 _ = ulong.TryParse(context.Request.Url.Segments.Last(), out ulong ifRecIdReq);
                                 object? resultOfRequest = controllerMethod.Invoke(controller, isRecId ? new[] { invokeParam, new APIResourceIdentificationCall(caller, ifRecIdReq) } : new[] { invokeParam });
-                                if (resultOfRequest != null && resultOfRequest.GetType() == typeof(HTTPResult<IEntity>))
+                                if (resultOfRequest != null && resultOfRequest.GetType() == typeof(HTTPArrayResult<IEntity>))
                                 {
-                                    HTTPResult<IEntity> finalResult = (HTTPResult<IEntity>)resultOfRequest;
-                                    return new(null, new HTTPResult<IEntity>(finalResult.code, finalResult.results));
+                                    if (resultOfRequest is HTTPArrayResult<IEntity> finalArrayResult)
+                                        return new(null, new HTTPArrayResult<IEntity>(finalArrayResult.Code, finalArrayResult.Results));
+                                    else if (resultOfRequest is HTTPSingleResult<IEntity> finalSingleResult)
+                                        return new(null, new HTTPSingleResult<IEntity>(finalSingleResult.Code, finalSingleResult.Result));
+                                    else
+                                        return new(new InternalError(), SingleResult: null);
                                 }
                                 else
-                                    return new(new InternalError(), null);
+                                    return new(new InternalError(), SingleResult: null);
                             }
                             else
-                                return new(new NotFound(), null);
+                                return new(new NotFound(), SingleResult: null);
                         }
                         else
-                            return new(new NotFound(), null);
+                            return new(new NotFound(), SingleResult: null);
                     }
                     else
-                        return new(new NotFound(), null);
+                        return new(new NotFound(), SingleResult: null);
 
                 }
                 else if (segments.Length > 0 && segments[0] == "favicon.ico")
                 {
-                    ContextRequest req = new(null, null);
-                    req.bytesToWrite = File.ReadAllBytes(this.Favicon.FullName);
-                    req.writeAsBytes = true;
+                    ContextRequest req = new(null, SingleResult: null);
+                    req.BytesToWrite = File.ReadAllBytes(this.Favicon.FullName);
+                    req.WriteAsBytes = true;
                     return req;
                 }
                 else
-                    return new(new NotFound(), null);
+                    return new(new NotFound(), SingleResult: null);
             }
             else
-                return new(new InternalError(), null);
+                return new(new InternalError(), SingleResult: null);
         }
 
 
@@ -213,27 +217,34 @@ namespace kacena.Classes.Handlers
             while (true)
                 try
                 {
-                    HttpListenerContext context = await this.listener.GetContextAsync();
-                    APIWriter writer = new(context);
-                    this.AuthorizeAPICaller?.Invoke(context.Request);
-                    ContextRequest req = await this.ProcessRequestAsync(context);
-                    if (!req.writeAsBytes && req.success && req.result != null && req.result.results != null)
+                    HttpListenerContext Context = await this.listener.GetContextAsync();
+                    APIWriter APIWriter = new(Context);
+                    this.AuthorizeAPICaller?.Invoke(Context.Request);
+                    ContextRequest Request = await this.ProcessRequestAsync(Context);
+                    if (!Request.WriteAsBytes && Request.Success && (Request.ArrayResult != null || Request.SingleResult != null))
                     {
-                        if (req.result.results.Length > 1 || req.result.results.Length == 0)
-                            writer.Write(new(req.result.code, req.result.results));
-                        else if (req.result.results.Length == 1)
-                            writer.Write(new(req.result.code, req.result.results.First()));
+                        if((Request.SingleResult != null && !((int)Request.SingleResult.Code).ToString().StartsWith("2"))  ||  (Request.ArrayResult != null && !((int)Request.ArrayResult.Code).ToString().StartsWith("2")))
+                        {
+                            if(Request.ArrayResult != null && Request.ArrayResult.Results != null)
+                                APIWriter.Write(new(Request.ArrayResult.Code, Request.ArrayResult.Results.First()));
+                            else if(Request.SingleResult != null && Request.SingleResult.Result != null)
+                                APIWriter.Write(new(Request.SingleResult.Code, Request.SingleResult.Result));
+                        }
+                        else if(Request.ArrayResult != null && Request.ArrayResult.Results != null)
+                            APIWriter.Write(new(Request.ArrayResult.Code, Request.ArrayResult.Results));
+                        else if (Request.SingleResult != null && Request.SingleResult.Result != null)
+                            APIWriter.Write(new(Request.SingleResult.Code, Request.SingleResult.Result));
                     }
-                    else if (req.bytesToWrite != null)
-                        writer.WriteRawBytes(req.bytesToWrite);
-                    else if (!req.success && req.error != null)
-                        writer.Write(new(req.error.code, req.error));
+                    else if (Request.BytesToWrite != null)
+                        APIWriter.WriteRawBytes(Request.BytesToWrite);
+                    else if (!Request.Success && Request.Error != null)
+                        APIWriter.Write(new(Request.Error.code, Request.Error));
                     else
-                        writer.Write(new(Enums.ResponseCodes.HTTPResponseCode.internalError, null));
+                        APIWriter.Write(new(Enums.ResponseCodes.HTTPResponseCode.internalError, null));
                 }
-                catch (Exception ex)
+                catch (Exception Ex)
                 {
-                    Console.WriteLine(ex);
+                    Console.WriteLine(Ex);
                 }
         }
     }

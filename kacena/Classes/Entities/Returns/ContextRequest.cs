@@ -6,33 +6,44 @@ namespace kacena.Classes.Entities.Returns
     internal class ContextRequest
     {
 
-        public bool success => this._result != null && this._error == null;
+        public bool Success => this.arrayResult != null && this.error == null;
 
 
-        private readonly HTTPResult<IEntity>? _result;
-        public HTTPResult<IEntity>? result => this._result;
+        private readonly HTTPArrayResult<IEntity>? arrayResult;
+        public HTTPArrayResult<IEntity>? ArrayResult => this.arrayResult;
 
 
-        private readonly HTTPResponseError? _error;
-        public HTTPResponseError? error => this._error;
+        private readonly HTTPSingleResult<IEntity>? singleResult;
+        public HTTPSingleResult<IEntity>? SingleResult => this.singleResult;
 
 
-        private bool _writeAsBytes = false;
-        public bool writeAsBytes
+        private readonly HTTPResponseError? error;
+        public HTTPResponseError? Error => this.error;
+
+
+        private bool writeAsBytes = false;
+        public bool WriteAsBytes
         {
-            get => this._writeAsBytes;
-            set => this._writeAsBytes = value;
+            get => this.writeAsBytes;
+            set => this.writeAsBytes = value;
         }
 
 
-        private byte[]? _bytesToWrite;
-        public byte[]? bytesToWrite { get => this._bytesToWrite; set => this._bytesToWrite = value; }
+        private byte[]? bytesToWrite;
+        public byte[]? BytesToWrite { get => this.bytesToWrite; set => this.bytesToWrite = value; }
 
 
-        public ContextRequest(HTTPResponseError? underlyingError, HTTPResult<IEntity>? result)
+        public ContextRequest(HTTPResponseError? UnderlyingError, HTTPArrayResult<IEntity>? ArrayResult)
         {
-            this._result = result;
-            this._error = underlyingError;
+            this.arrayResult = ArrayResult;
+            this.error = UnderlyingError;
+        }
+
+
+        public ContextRequest(HTTPResponseError? UnderlyingError, HTTPSingleResult<IEntity>? SingleResult)
+        {
+            this.singleResult = SingleResult;
+            this.error = UnderlyingError;
         }
     }
 }

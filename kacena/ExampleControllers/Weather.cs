@@ -16,7 +16,7 @@ namespace kacena.ExampleControllers
 
         [HTTPGet]
         [Route("/forecast")]
-        internal static HTTPResult<IEntity> Forecast()
+        internal static HTTPArrayResult<IEntity> Forecast()
         {
             return new(HTTPResponseCode.requestFulfilled, new ExampleForecast()
             {
@@ -32,5 +32,7 @@ namespace kacena.ExampleControllers
         internal DateTime date;
         [JsonProperty("w")]
         internal string? woo;
+        [JsonProperty("id")]
+        public ulong Id => 0;
     }
 }
