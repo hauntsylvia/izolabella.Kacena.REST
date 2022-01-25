@@ -5,7 +5,7 @@ namespace kacena.Classes.Entities.Errors
 {
     public class Forbidden : HTTPResponseError
     {
-        public Forbidden(string message, bool clientIsAuthenticated) : base(clientIsAuthenticated ? HTTPResponseCode.forbidden : HTTPResponseCode.unauthorized, message)
+        public Forbidden(string message, bool clientIsAuthenticated) : base(clientIsAuthenticated ? HTTPResponseCode.Forbidden : HTTPResponseCode.Unauthorized, message)
         {
         }
     }

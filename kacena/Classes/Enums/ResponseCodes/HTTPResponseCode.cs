@@ -2,20 +2,20 @@
 {
     public enum HTTPResponseCode
     {
-        requestFulfilled = 200,
-        created = 201,
-        accepted = 202,
-        noResponse = 203,
+        RequestFulfilled = 200,
+        Created = 201,
+        Accepted = 202,
+        NoResponse = 203,
 
-        badRequest = 400,
-        unauthorized = 401,
-        forbidden = 403,
-        notFound = 404,
+        BadRequest = 400,
+        Unauthorized = 401,
+        Forbidden = 403,
+        NotFound = 404,
 
-        internalError = 500,
-        notImplemented = 501,
-        temporarilyOverloaded = 502,
+        InternalError = 500,
+        NotImplemented = 501,
+        TemporarilyOverloaded = 502,
 
-        permanentlyMoved = 301,
+        PermanentlyMoved = 301,
     }
 }

@@ -5,7 +5,7 @@ namespace kacena.Classes.Entities.Errors
 {
     public class NotImplemented : HTTPResponseError
     {
-        public NotImplemented(string message = "This service is being worked on.") : base(HTTPResponseCode.notImplemented, message)
+        public NotImplemented(string message = "This service is being worked on.") : base(HTTPResponseCode.NotImplemented, message)
         {
         }
     }

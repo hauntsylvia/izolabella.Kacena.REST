@@ -240,7 +240,7 @@ namespace kacena.Classes.Handlers
                     else if (!Request.Success && Request.Error != null)
                         APIWriter.Write(new(Request.Error.Code, Request.Error));
                     else
-                        APIWriter.Write(new(Enums.ResponseCodes.HTTPResponseCode.internalError, null));
+                        APIWriter.Write(new(Enums.ResponseCodes.HTTPResponseCode.InternalError, null));
                 }
                 catch (Exception Ex)
                 {

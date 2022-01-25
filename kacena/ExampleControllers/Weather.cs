@@ -18,7 +18,7 @@ namespace kacena.ExampleControllers
         [Route("/forecast")]
         internal static HTTPArrayResult<IEntity> Forecast()
         {
-            return new(HTTPResponseCode.requestFulfilled, new ExampleForecast()
+            return new(HTTPResponseCode.RequestFulfilled, new ExampleForecast()
             {
                 date = DateTime.Now,
                 woo = "this is a test endpoint"
