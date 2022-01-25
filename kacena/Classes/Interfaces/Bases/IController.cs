@@ -4,7 +4,7 @@ namespace kacena.Classes.Interfaces.Bases
 {
     public interface IController
     {
-        string serviceName { get; }
-        API api { get; }
+        string ServiceName { get; }
+        API API { get; }
     }
 }

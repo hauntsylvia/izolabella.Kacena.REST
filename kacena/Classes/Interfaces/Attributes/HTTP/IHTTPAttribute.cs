@@ -2,6 +2,6 @@
 {
     public interface IHTTPAttribute
     {
-        public string verb { get; }
+        public string Verb { get; }
     }
 }

@@ -2,13 +2,13 @@
 {
     public class APIFormUrlEncodedCall : APIBaseCall
     {
-        private readonly Dictionary<string, string> _query;
-        public Dictionary<string, string> Query => this._query;
+        private readonly Dictionary<string, string> query;
+        public Dictionary<string, string> Query => this.query;
 
 
         public APIFormUrlEncodedCall(object? caller, Dictionary<string, string> query) : base(caller)
         {
-            this._query = query;
+            this.query = query;
         }
     }
 }

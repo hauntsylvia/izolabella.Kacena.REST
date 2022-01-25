@@ -5,6 +5,6 @@ namespace kacena.Classes.Attributes.HTTP
     [AttributeUsage(AttributeTargets.Method)]
     public class HTTPPatch : Attribute, IHTTPAttribute
     {
-        public string verb => "PATCH";
+        public string Verb => "PATCH";
     }
 }

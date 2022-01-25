@@ -5,6 +5,6 @@ namespace kacena.Classes.Attributes.HTTP
     [AttributeUsage(AttributeTargets.Method)]
     public class HTTPDelete : Attribute, IHTTPAttribute
     {
-        public string verb => "DELETE";
+        public string Verb => "DELETE";
     }
 }

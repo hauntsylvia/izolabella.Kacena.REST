@@ -5,6 +5,6 @@ namespace kacena.Classes.Attributes.HTTP
     [AttributeUsage(AttributeTargets.Method)]
     public class HTTPGet : Attribute, IHTTPAttribute
     {
-        public string verb => "GET";
+        public string Verb => "GET";
     }
 }

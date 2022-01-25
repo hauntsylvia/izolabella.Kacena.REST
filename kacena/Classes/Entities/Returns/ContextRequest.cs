@@ -6,7 +6,7 @@ namespace kacena.Classes.Entities.Returns
     internal class ContextRequest
     {
 
-        public bool Success => this.arrayResult != null && this.error == null;
+        public bool Success => (this.arrayResult != null || this.singleResult != null) && this.error == null;
 
 
         private readonly HTTPArrayResult<IEntity>? arrayResult;

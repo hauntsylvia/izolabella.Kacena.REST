@@ -2,13 +2,13 @@
 {
     public class APIResourceIdentificationCall : APIBaseCall
     {
-        private readonly ulong _inUrl;
-        public ulong inUrl => this._inUrl;
+        private readonly ulong resourceIdentifier;
+        public ulong ResourceIdentifier => this.resourceIdentifier;
 
 
-        public APIResourceIdentificationCall(object? caller, ulong inUrlIdentification) : base(caller)
+        public APIResourceIdentificationCall(object? Caller, ulong ResourceIdentifier) : base(Caller)
         {
-            this._inUrl = inUrlIdentification;
+            this.resourceIdentifier = ResourceIdentifier;
         }
     }
 }

@@ -49,7 +49,7 @@ namespace kacena.Classes.Handlers
                 Route? controllerRoute = (Route?)ts[i].GetCustomAttribute(typeof(Route));
                 if (controllerRoute != null)
                 {
-                    object? controller = Activator.CreateInstance(type: ts[i], args: new object[] { this, controllerRoute.relativeUri.Split('/')[1] }, bindingAttr: BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, binder: null, culture: null);
+                    object? controller = Activator.CreateInstance(type: ts[i], args: new object[] { this, controllerRoute.RelativeUrl.Split('/')[1] }, bindingAttr: BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, binder: null, culture: null);
                     if (controller != null)
                         this.controllers[i] = (IController)controller;
                 }
@@ -72,7 +72,7 @@ namespace kacena.Classes.Handlers
             {
                 string[] segments = context.Request.Url.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
                 string service = segments[0];
-                IController[] controllers = this.Controllers.Where(c => c.serviceName.ToUpper() == service.ToUpper()).ToArray();
+                IController[] controllers = this.Controllers.Where(c => c.ServiceName.ToUpper() == service.ToUpper()).ToArray();
                 return controllers.Length > 0 ? controllers.First() : null;
             }
             else
@@ -91,12 +91,12 @@ namespace kacena.Classes.Handlers
                     Uri? methodUri = null;
                     if (MethodIsResourceIdentificationHandler(method))
                         rIdHandlerMethod = method;
-                    methodUri = method.GetCustomAttribute(typeof(Route), false) is Route routingUrlAttr ? new Uri(this.Uri, $"{controller.serviceName}{routingUrlAttr.relativeUri}") : null;
+                    methodUri = method.GetCustomAttribute(typeof(Route), false) is Route routingUrlAttr ? new Uri(this.Uri, $"{controller.ServiceName}{routingUrlAttr.RelativeUrl}") : null;
                     object[] customAttributes = method.GetCustomAttributes(typeof(IHTTPAttribute), false);
                     IHTTPAttribute[] methodVerbs = new IHTTPAttribute[customAttributes.Length];
                     for (int i = 0; i < customAttributes.Length; i++)
                         methodVerbs[i] = (IHTTPAttribute)customAttributes[i];
-                    bool verbAllowed = methodVerbs.Any(x => x.verb == context.Request.HttpMethod.ToUpper());
+                    bool verbAllowed = methodVerbs.Any(x => x.Verb == context.Request.HttpMethod.ToUpper());
                     if (verbAllowed && methodUri != null && methodUri.GetComponents(UriComponents.Path, UriFormat.UriEscaped).ToLower() == context.Request.Url.GetComponents(UriComponents.Path, UriFormat.UriEscaped).ToLower())
                         return method;
                 }
@@ -173,7 +173,7 @@ namespace kacena.Classes.Handlers
                                 }
                                 _ = ulong.TryParse(context.Request.Url.Segments.Last(), out ulong ifRecIdReq);
                                 object? resultOfRequest = controllerMethod.Invoke(controller, isRecId ? new[] { invokeParam, new APIResourceIdentificationCall(caller, ifRecIdReq) } : new[] { invokeParam });
-                                if (resultOfRequest != null && resultOfRequest.GetType() == typeof(HTTPArrayResult<IEntity>))
+                                if (resultOfRequest != null)
                                 {
                                     if (resultOfRequest is HTTPArrayResult<IEntity> finalArrayResult)
                                         return new(null, new HTTPArrayResult<IEntity>(finalArrayResult.Code, finalArrayResult.Results));
@@ -238,7 +238,7 @@ namespace kacena.Classes.Handlers
                     else if (Request.BytesToWrite != null)
                         APIWriter.WriteRawBytes(Request.BytesToWrite);
                     else if (!Request.Success && Request.Error != null)
-                        APIWriter.Write(new(Request.Error.code, Request.Error));
+                        APIWriter.Write(new(Request.Error.Code, Request.Error));
                     else
                         APIWriter.Write(new(Enums.ResponseCodes.HTTPResponseCode.internalError, null));
                 }
