@@ -1,12 +1,12 @@
-﻿using kacena.Classes.Attributes.HTTP;
-using kacena.Classes.Bases;
-using kacena.Classes.Entities.Returns;
-using kacena.Classes.Enums.ResponseCodes;
-using kacena.Classes.Handlers;
-using kacena.Classes.Interfaces.Entities;
+﻿using Kacena.Classes.Attributes.HTTP;
+using Kacena.Classes.Bases;
+using Kacena.Classes.Entities.Returns;
+using Kacena.Classes.Enums.ResponseCodes;
+using Kacena.Classes.Handlers;
+using Kacena.Classes.Interfaces.Entities;
 using Newtonsoft.Json;
 
-namespace kacena.ExampleControllers
+namespace Kacena.ExampleControllers
 {
     internal class Weather : Controller
     {

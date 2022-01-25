@@ -1,6 +1,6 @@
-﻿using kacena.Classes.Interfaces.Attributes.HTTP;
+﻿using Kacena.Classes.Interfaces.Attributes.HTTP;
 
-namespace kacena.Classes.Attributes.HTTP
+namespace Kacena.Classes.Attributes.HTTP
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class HTTPGet : Attribute, IHTTPAttribute

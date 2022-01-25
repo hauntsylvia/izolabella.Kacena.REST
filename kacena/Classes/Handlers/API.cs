@@ -1,10 +1,10 @@
-﻿using kacena.Classes.Arguments;
-using kacena.Classes.Attributes.HTTP;
-using kacena.Classes.Entities.Errors;
-using kacena.Classes.Entities.Returns;
-using kacena.Classes.Interfaces.Attributes.HTTP;
-using kacena.Classes.Interfaces.Bases;
-using kacena.Classes.Interfaces.Entities;
+﻿using Kacena.Classes.Arguments;
+using Kacena.Classes.Attributes.HTTP;
+using Kacena.Classes.Entities.Errors;
+using Kacena.Classes.Entities.Returns;
+using Kacena.Classes.Interfaces.Attributes.HTTP;
+using Kacena.Classes.Interfaces.Bases;
+using Kacena.Classes.Interfaces.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Specialized;
@@ -12,7 +12,7 @@ using System.Net;
 using System.Reflection;
 using System.Web;
 
-namespace kacena.Classes.Handlers
+namespace Kacena.Classes.Handlers
 {
     public class API
     {

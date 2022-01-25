@@ -1,7 +1,7 @@
-﻿using kacena.Classes.Enums.ResponseCodes;
-using kacena.Classes.Interfaces.Entities;
+﻿using Kacena.Classes.Enums.ResponseCodes;
+using Kacena.Classes.Interfaces.Entities;
 
-namespace kacena.Classes.Entities.Returns
+namespace Kacena.Classes.Entities.Returns
 {
     public class HTTPSingleResult<T> where T : IEntity
     {

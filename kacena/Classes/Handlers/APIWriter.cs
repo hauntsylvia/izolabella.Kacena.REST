@@ -1,10 +1,10 @@
-﻿using kacena.Classes.Arguments;
-using kacena.Classes.Interfaces.Entities.Errors;
+﻿using Kacena.Classes.Arguments;
+using Kacena.Classes.Interfaces.Entities.Errors;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 
-namespace kacena.Classes.Handlers
+namespace Kacena.Classes.Handlers
 {
     public class APIWriter
     {

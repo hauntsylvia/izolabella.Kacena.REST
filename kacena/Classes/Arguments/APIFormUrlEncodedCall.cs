@@ -1,4 +1,4 @@
-﻿namespace kacena.Classes.Arguments
+﻿namespace Kacena.Classes.Arguments
 {
     public class APIFormUrlEncodedCall : APIBaseCall
     {

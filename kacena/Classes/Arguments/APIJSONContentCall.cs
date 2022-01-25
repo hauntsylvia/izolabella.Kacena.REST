@@ -1,6 +1,6 @@
-﻿using kacena.Classes.Interfaces.Entities;
+﻿using Kacena.Classes.Interfaces.Entities;
 
-namespace kacena.Classes.Arguments
+namespace Kacena.Classes.Arguments
 {
     public class APIJSONContentCall<T> : APIBaseCall where T : IEntity
     {

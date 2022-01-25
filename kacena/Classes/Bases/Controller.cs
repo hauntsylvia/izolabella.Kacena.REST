@@ -1,7 +1,7 @@
-﻿using kacena.Classes.Handlers;
-using kacena.Classes.Interfaces.Bases;
+﻿using Kacena.Classes.Handlers;
+using Kacena.Classes.Interfaces.Bases;
 
-namespace kacena.Classes.Bases
+namespace Kacena.Classes.Bases
 {
     public class Controller : IController
     {

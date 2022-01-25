@@ -1,4 +1,4 @@
-﻿namespace kacena.Classes.Attributes.HTTP
+﻿namespace Kacena.Classes.Attributes.HTTP
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
     public class Route : Attribute

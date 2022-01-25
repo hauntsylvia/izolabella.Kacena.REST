@@ -1,6 +1,6 @@
-﻿using kacena.Classes.Enums.ResponseCodes;
+﻿using Kacena.Classes.Enums.ResponseCodes;
 
-namespace kacena.Classes.Interfaces.Entities.Errors
+namespace Kacena.Classes.Interfaces.Entities.Errors
 {
     public interface IHTTPResponseError
     {

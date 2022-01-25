@@ -1,6 +1,6 @@
-﻿using kacena.Classes.Enums.ResponseCodes;
+﻿using Kacena.Classes.Enums.ResponseCodes;
 
-namespace kacena.Classes.Arguments
+namespace Kacena.Classes.Arguments
 {
     public class APIWriterArgs
     {

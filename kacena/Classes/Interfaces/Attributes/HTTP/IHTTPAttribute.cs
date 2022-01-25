@@ -1,4 +1,4 @@
-﻿namespace kacena.Classes.Interfaces.Attributes.HTTP
+﻿namespace Kacena.Classes.Interfaces.Attributes.HTTP
 {
     public interface IHTTPAttribute
     {

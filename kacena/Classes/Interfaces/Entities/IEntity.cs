@@ -1,4 +1,4 @@
-﻿namespace kacena.Classes.Interfaces.Entities
+﻿namespace Kacena.Classes.Interfaces.Entities
 {
     public interface IEntity
     {

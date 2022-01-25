@@ -1,8 +1,8 @@
-﻿using kacena.Classes.Enums.ResponseCodes;
-using kacena.Classes.Interfaces.Entities.Errors;
+﻿using Kacena.Classes.Enums.ResponseCodes;
+using Kacena.Classes.Interfaces.Entities.Errors;
 using Newtonsoft.Json;
 
-namespace kacena.Classes.Bases
+namespace Kacena.Classes.Bases
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class HTTPResponseError : IHTTPResponseError

@@ -1,7 +1,7 @@
-﻿using kacena.Classes.Bases;
-using kacena.Classes.Enums.ResponseCodes;
+﻿using Kacena.Classes.Bases;
+using Kacena.Classes.Enums.ResponseCodes;
 
-namespace kacena.Classes.Entities.Errors
+namespace Kacena.Classes.Entities.Errors
 {
     public class Forbidden : HTTPResponseError
     {

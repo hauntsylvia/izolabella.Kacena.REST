@@ -1,7 +1,7 @@
-﻿using kacena.Classes.Bases;
-using kacena.Classes.Interfaces.Entities;
+﻿using Kacena.Classes.Bases;
+using Kacena.Classes.Interfaces.Entities;
 
-namespace kacena.Classes.Entities.Returns
+namespace Kacena.Classes.Entities.Returns
 {
     internal class ContextRequest
     {
