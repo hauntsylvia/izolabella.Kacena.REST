@@ -5,16 +5,16 @@ namespace KacenaRest.Classes.Bases
 {
     public class Controller : IController
     {
-        private readonly string _serviceName;
-        public string ServiceName => this._serviceName;
+        private readonly string serviceName;
+        public string ServiceName => this.serviceName;
 
 
-        private readonly API _api;
-        public API API => this._api;
+        private readonly API api;
+        public API API => this.api;
         public Controller(API api, string service)
         {
-            this._serviceName = service;
-            this._api = api;
+            this.serviceName = service;
+            this.api = api;
         }
     }
 }

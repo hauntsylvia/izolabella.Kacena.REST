@@ -10,22 +10,22 @@ namespace KacenaRest.Classes.Bases
         [JsonConstructor]
         public HTTPResponseError(HTTPResponseCode code, string message)
         {
-            this._code = code;
-            this._message = message;
+            this.code = code;
+            this.message = message;
         }
 
         /// <summary>
         /// the error code returned to the requesting client
         /// </summary>
-        private readonly HTTPResponseCode _code;
-        public HTTPResponseCode Code => this._code;
+        private readonly HTTPResponseCode code;
+        public HTTPResponseCode Code => this.code;
 
 
         [JsonProperty("message")]
         /// <summary>
         /// the property "message" of the json payload if this is returned to the context writer
         /// </summary>
-        private readonly string _message;
-        public string Message => this._message;
+        private readonly string message;
+        public string Message => this.message;
     }
 }

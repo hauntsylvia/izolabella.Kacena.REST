@@ -8,13 +8,13 @@
         }
 
 
-        private readonly object? _caller;
-        public object? Caller => this._caller;
+        private readonly object? caller;
+        public object? Caller => this.caller;
 
 
         public APIBaseCall(object? caller)
         {
-            this._caller = caller;
+            this.caller = caller;
         }
     }
 }
