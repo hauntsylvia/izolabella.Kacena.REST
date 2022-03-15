@@ -13,7 +13,7 @@ namespace izolabella.Kacena.REST.Classes.Util
 {
     internal class RequestSurgeon
     {
-        private static T? ResolvePayload<T>(HttpListenerContext Context)
+        public static T? ResolvePayload<T>(HttpListenerContext Context)
         {
             T? Payload = default;
             if (Context.Request.ContentType != null && Context.Request.InputStream != null && Context.Request.InputStream.CanRead)
@@ -39,7 +39,7 @@ namespace izolabella.Kacena.REST.Classes.Util
         /// <typeparam name="T">Type of object that is expected within requests such as POST requests.</typeparam>
         /// <param name="Context"></param>
         /// <returns></returns>
-        internal static RequestWrapper<T>? CutRequest<T>(HttpListenerContext Context, Uri Prefix, params IEndpoint[] Endpoints)
+        internal static RequestWrapper? CutRequest(HttpListenerContext Context, params IEndpoint[] Endpoints)
         {
             if (Context.Request.Url != null)
             {
@@ -56,7 +56,10 @@ namespace izolabella.Kacena.REST.Classes.Util
                             {
                                 if(Method.Name.ToLower() == RequestedMethod.ToLower())
                                 {
-                                    return new RequestWrapper<T>(Method, ResolvePayload<T>(Context));
+                                    ParameterInfo? Parameter = Method.GetParameters().FirstOrDefault();
+                                    MethodInfo? DynamicResolvePayload = Parameter != null ? typeof(RequestSurgeon).GetMethod("ResolvePayload")?.MakeGenericMethod(Parameter.ParameterType) : null;
+                                    object? ResultOfDynamicallyResolvedPayload = DynamicResolvePayload?.Invoke(null, new object[] { Context });
+                                    return new RequestWrapper(Method, Endpoint, ResultOfDynamicallyResolvedPayload);
                                 }
                             }
                         }

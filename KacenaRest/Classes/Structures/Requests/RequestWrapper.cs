@@ -7,15 +7,21 @@ using System.Threading.Tasks;
 
 namespace izolabella.Kacena.REST.Classes.Structures.Requests
 {
-    internal class RequestWrapper<T>
+    internal class RequestWrapper
     {
-        internal RequestWrapper(MethodInfo RouteTo, T? Payload)
+        internal RequestWrapper(MethodInfo RouteTo, IEndpoint Endpoint, object? Payload)
         {
             this.RouteTo = RouteTo;
+            this.Endpoint = Endpoint;
             this.Payload = Payload;
         }
 
         public MethodInfo RouteTo { get; }
-        public T? Payload { get; }
+        public IEndpoint Endpoint { get; }
+        public object? Payload { get; }
+        public object? Invoke()
+        {
+            return this.RouteTo.Invoke(null, this.Payload != null ? new object[] { this.Payload } : Array.Empty<object>());
+        }
     }
 }
