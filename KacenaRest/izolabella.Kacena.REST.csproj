@@ -9,6 +9,9 @@
 	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <Authors>izolabella</Authors>
 	  <Description>A private package for creating a REST API.</Description>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <RepositoryType>github</RepositoryType>
+	  <RepositoryUrl>https://github.com/izolabella/izolabella.Kacena.REST</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +20,13 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

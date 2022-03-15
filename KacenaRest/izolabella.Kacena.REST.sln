@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32210.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KacenaRest", "KacenaRest.csproj", "{EB7F682D-B1C2-405C-9B27-9E77C6D12590}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "izolabella.Kacena.REST", "izolabella.Kacena.REST.csproj", "{EB7F682D-B1C2-405C-9B27-9E77C6D12590}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
