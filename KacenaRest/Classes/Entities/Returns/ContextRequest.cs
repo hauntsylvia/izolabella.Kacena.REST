@@ -1,7 +1,7 @@
-﻿using KacenaRest.Classes.Bases;
-using KacenaRest.Classes.Interfaces.Entities;
+﻿using izolabella.Kacena.REST.Classes.Bases;
+using izolabella.Kacena.REST.Classes.Interfaces.Entities;
 
-namespace KacenaRest.Classes.Entities.Returns
+namespace izolabella.Kacena.REST.Classes.Entities.Returns
 {
     internal class ContextRequest
     {

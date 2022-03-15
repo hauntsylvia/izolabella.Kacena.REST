@@ -1,10 +1,10 @@
-﻿using KacenaRest.Classes.Arguments;
-using KacenaRest.Classes.Interfaces.Entities.Errors;
+﻿using izolabella.Kacena.REST.Classes.Arguments;
+using izolabella.Kacena.REST.Classes.Interfaces.Entities.Errors;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 
-namespace KacenaRest.Classes.Handlers
+namespace izolabella.Kacena.REST.Classes.Handlers
 {
     public class APIWriter
     {

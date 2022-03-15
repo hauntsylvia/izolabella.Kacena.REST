@@ -1,6 +1,6 @@
-﻿using KacenaRest.Classes.Enums.ResponseCodes;
+﻿using izolabella.Kacena.REST.Classes.Enums.ResponseCodes;
 
-namespace KacenaRest.Classes.Interfaces.Entities.Errors
+namespace izolabella.Kacena.REST.Classes.Interfaces.Entities.Errors
 {
     public interface IHTTPResponseError
     {

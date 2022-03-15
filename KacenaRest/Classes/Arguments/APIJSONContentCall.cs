@@ -1,6 +1,6 @@
-﻿using KacenaRest.Classes.Interfaces.Entities;
+﻿using izolabella.Kacena.REST.Classes.Interfaces.Entities;
 
-namespace KacenaRest.Classes.Arguments
+namespace izolabella.Kacena.REST.Classes.Arguments
 {
     public class APIJSONContentCall<T> : APIBaseCall where T : IEntity
     {

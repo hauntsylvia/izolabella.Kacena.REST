@@ -1,7 +1,7 @@
-﻿using KacenaRest.Classes.Bases;
-using KacenaRest.Classes.Enums.ResponseCodes;
+﻿using izolabella.Kacena.REST.Classes.Bases;
+using izolabella.Kacena.REST.Classes.Enums.ResponseCodes;
 
-namespace KacenaRest.Classes.Entities.Errors
+namespace izolabella.Kacena.REST.Classes.Entities.Errors
 {
     public class Forbidden : HTTPResponseError
     {

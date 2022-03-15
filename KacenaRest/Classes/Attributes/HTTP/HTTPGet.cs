@@ -1,6 +1,6 @@
-﻿using KacenaRest.Classes.Interfaces.Attributes.HTTP;
+﻿using izolabella.Kacena.REST.Classes.Interfaces.Attributes.HTTP;
 
-namespace KacenaRest.Classes.Attributes.HTTP
+namespace izolabella.Kacena.REST.Classes.Attributes.HTTP
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class HTTPGet : Attribute, IHTTPAttribute

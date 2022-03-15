@@ -1,4 +1,4 @@
-﻿namespace KacenaRest.Classes.Interfaces.Attributes.HTTP
+﻿namespace izolabella.Kacena.REST.Classes.Interfaces.Attributes.HTTP
 {
     public interface IHTTPAttribute
     {

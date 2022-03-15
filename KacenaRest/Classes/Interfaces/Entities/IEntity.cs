@@ -1,4 +1,4 @@
-﻿namespace KacenaRest.Classes.Interfaces.Entities
+﻿namespace izolabella.Kacena.REST.Classes.Interfaces.Entities
 {
     public interface IEntity
     {

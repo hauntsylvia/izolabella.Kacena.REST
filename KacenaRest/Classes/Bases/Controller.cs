@@ -1,7 +1,7 @@
-﻿using KacenaRest.Classes.Handlers;
-using KacenaRest.Classes.Interfaces.Bases;
+﻿using izolabella.Kacena.REST.Classes.Handlers;
+using izolabella.Kacena.REST.Classes.Interfaces.Bases;
 
-namespace KacenaRest.Classes.Bases
+namespace izolabella.Kacena.REST.Classes.Bases
 {
     public class Controller : IController
     {

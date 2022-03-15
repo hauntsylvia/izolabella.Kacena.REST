@@ -1,8 +1,8 @@
-﻿using KacenaRest.Classes.Enums.ResponseCodes;
-using KacenaRest.Classes.Interfaces.Entities.Errors;
+﻿using izolabella.Kacena.REST.Classes.Enums.ResponseCodes;
+using izolabella.Kacena.REST.Classes.Interfaces.Entities.Errors;
 using Newtonsoft.Json;
 
-namespace KacenaRest.Classes.Bases
+namespace izolabella.Kacena.REST.Classes.Bases
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class HTTPResponseError : IHTTPResponseError

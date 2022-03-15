@@ -1,6 +1,6 @@
-﻿using KacenaRest.Classes.Enums.ResponseCodes;
+﻿using izolabella.Kacena.REST.Classes.Enums.ResponseCodes;
 
-namespace KacenaRest.Classes.Arguments
+namespace izolabella.Kacena.REST.Classes.Arguments
 {
     public class APIWriterArgs
     {

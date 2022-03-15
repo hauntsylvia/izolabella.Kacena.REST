@@ -1,4 +1,4 @@
-﻿namespace KacenaRest.Classes.Enums.ResponseCodes
+﻿namespace izolabella.Kacena.REST.Classes.Enums.ResponseCodes
 {
     public enum HTTPResponseCode
     {

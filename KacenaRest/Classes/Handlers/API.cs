@@ -1,10 +1,10 @@
-﻿using KacenaRest.Classes.Arguments;
-using KacenaRest.Classes.Attributes.HTTP;
-using KacenaRest.Classes.Entities.Errors;
-using KacenaRest.Classes.Entities.Returns;
-using KacenaRest.Classes.Interfaces.Attributes.HTTP;
-using KacenaRest.Classes.Interfaces.Bases;
-using KacenaRest.Classes.Interfaces.Entities;
+﻿using izolabella.Kacena.REST.Classes.Arguments;
+using izolabella.Kacena.REST.Classes.Attributes.HTTP;
+using izolabella.Kacena.REST.Classes.Entities.Errors;
+using izolabella.Kacena.REST.Classes.Entities.Returns;
+using izolabella.Kacena.REST.Classes.Interfaces.Attributes.HTTP;
+using izolabella.Kacena.REST.Classes.Interfaces.Bases;
+using izolabella.Kacena.REST.Classes.Interfaces.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Specialized;
@@ -12,7 +12,7 @@ using System.Net;
 using System.Reflection;
 using System.Web;
 
-namespace KacenaRest.Classes.Handlers
+namespace izolabella.Kacena.REST.Classes.Handlers
 {
     public class API
     {

@@ -1,14 +1,14 @@
-﻿using KacenaRest.Classes.Attributes.HTTP;
-using KacenaRest.Classes.Bases;
-using KacenaRest.Classes.Entities.Returns;
-using KacenaRest.Classes.Enums.ResponseCodes;
-using KacenaRest.Classes.Handlers;
-using KacenaRest.Classes.Interfaces.Entities;
+﻿using izolabella.Kacena.REST.Classes.Attributes.HTTP;
+using izolabella.Kacena.REST.Classes.Bases;
+using izolabella.Kacena.REST.Classes.Entities.Returns;
+using izolabella.Kacena.REST.Classes.Enums.ResponseCodes;
+using izolabella.Kacena.REST.Classes.Handlers;
+using izolabella.Kacena.REST.Classes.Interfaces.Entities;
 using Newtonsoft.Json;
 
-namespace KacenaRest.ExampleControllers
+namespace izolabella.Kacena.REST.ExampleControllers
 {
-    internal class Weather : Controller
+    public class Weather : Controller
     {
         public Weather(API api, string service) : base(api, service)
         {

@@ -1,4 +1,4 @@
-﻿namespace KacenaRest.Classes.Arguments
+﻿namespace izolabella.Kacena.REST.Classes.Arguments
 {
     public class APIResourceIdentificationCall : APIBaseCall
     {

@@ -1,4 +1,4 @@
-﻿namespace KacenaRest.Classes.Attributes.HTTP
+﻿namespace izolabella.Kacena.REST.Classes.Attributes.HTTP
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
     public class Route : Attribute

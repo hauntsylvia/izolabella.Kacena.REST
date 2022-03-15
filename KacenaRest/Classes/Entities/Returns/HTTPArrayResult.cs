@@ -1,7 +1,7 @@
-﻿using KacenaRest.Classes.Enums.ResponseCodes;
-using KacenaRest.Classes.Interfaces.Entities;
+﻿using izolabella.Kacena.REST.Classes.Enums.ResponseCodes;
+using izolabella.Kacena.REST.Classes.Interfaces.Entities;
 
-namespace KacenaRest.Classes.Entities.Returns
+namespace izolabella.Kacena.REST.Classes.Entities.Returns
 {
     public class HTTPArrayResult<T> where T : IEntity
     {
