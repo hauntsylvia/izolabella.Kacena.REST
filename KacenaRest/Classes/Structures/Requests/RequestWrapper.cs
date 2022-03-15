@@ -9,7 +9,7 @@ namespace izolabella.Kacena.REST.Classes.Structures.Requests
 {
     internal class RequestWrapper
     {
-        internal RequestWrapper(MethodInfo RouteTo, IEndpoint Endpoint, object? Payload)
+        internal RequestWrapper(MethodInfo RouteTo, IEndpointContainer Endpoint, object? Payload)
         {
             this.RouteTo = RouteTo;
             this.Endpoint = Endpoint;
@@ -17,7 +17,7 @@ namespace izolabella.Kacena.REST.Classes.Structures.Requests
         }
 
         public MethodInfo RouteTo { get; }
-        public IEndpoint Endpoint { get; }
+        public IEndpointContainer Endpoint { get; }
         public object? Payload { get; }
         public object? Invoke()
         {

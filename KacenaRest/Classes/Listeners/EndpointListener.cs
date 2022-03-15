@@ -23,7 +23,7 @@ namespace izolabella.Kacena.REST.Classes.Listeners
         }
 
 
-        private List<IEndpoint> Endpoints { get; }
+        private List<IEndpointContainer> Endpoints { get; }
 
 
         private readonly HttpListener httpListener;
@@ -33,7 +33,7 @@ namespace izolabella.Kacena.REST.Classes.Listeners
 
         public Uri Prefix { get; }
 
-        public void AddEndpoint(IEndpoint Endpoint)
+        public void AddEndpoint(IEndpointContainer Endpoint)
         {
             this.Endpoints.Add(Endpoint);
         }

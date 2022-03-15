@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace izolabella.Kacena.REST.Classes.Structures
 {
-    public interface IEndpoint
+    public interface IEndpointContainer
     {
         string Route { get; }
     }

@@ -39,7 +39,7 @@ namespace izolabella.Kacena.REST.Classes.Util
         /// <typeparam name="T">Type of object that is expected within requests such as POST requests.</typeparam>
         /// <param name="Context"></param>
         /// <returns></returns>
-        internal static RequestWrapper? CutRequest(HttpListenerContext Context, params IEndpoint[] Endpoints)
+        internal static RequestWrapper? CutRequest(HttpListenerContext Context, params IEndpointContainer[] EndpointContainers)
         {
             if (Context.Request.Url != null)
             {
@@ -48,18 +48,18 @@ namespace izolabella.Kacena.REST.Classes.Util
                 string? RequestedMethod = Parts.Length > 1 ? Parts[2] : null;
                 if(RequestedMethod != null)
                 {
-                    foreach (IEndpoint Endpoint in Endpoints)
+                    foreach (IEndpointContainer EndpointContainer in EndpointContainers)
                     {
-                        if (RequestedEndpoint.ToLower() == Endpoint.Route.ToLower().Trim('/'))
+                        if (RequestedEndpoint.ToLower() == EndpointContainer.Route.ToLower().Trim('/'))
                         {
-                            foreach (MethodInfo Method in Endpoint.GetType().GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
+                            foreach (MethodInfo Method in EndpointContainer.GetType().GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
                             {
                                 if(Method.Name.ToLower() == RequestedMethod.ToLower())
                                 {
                                     ParameterInfo? Parameter = Method.GetParameters().FirstOrDefault();
                                     MethodInfo? DynamicResolvePayload = Parameter != null ? typeof(RequestSurgeon).GetMethod("ResolvePayload")?.MakeGenericMethod(Parameter.ParameterType) : null;
                                     object? ResultOfDynamicallyResolvedPayload = DynamicResolvePayload?.Invoke(null, new object[] { Context });
-                                    return new RequestWrapper(Method, Endpoint, ResultOfDynamicallyResolvedPayload);
+                                    return new RequestWrapper(Method, EndpointContainer, ResultOfDynamicallyResolvedPayload);
                                 }
                             }
                         }
