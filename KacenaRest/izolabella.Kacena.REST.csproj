@@ -5,7 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	  <Version>2.0.1</Version>
+	  <Version>2.1.0</Version>
 	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <Authors>izolabella</Authors>
 	  <Description>A private package for creating a REST API.</Description>
@@ -13,7 +13,7 @@
 	  <RepositoryType>github</RepositoryType>
 	  <RepositoryUrl>https://github.com/izolabella/izolabella.Kacena.REST</RepositoryUrl>
 	  <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-	  <PackageReleaseNotes>Bug fixes of which made this literally un-usable.</PackageReleaseNotes>
+	  <PackageReleaseNotes>Attributes, better routing, bug fixes.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
