@@ -49,11 +49,6 @@ namespace izolabella.Kacena.REST.Classes.Util
                                 {
                                     Property.SetValue(RawResult, ProvidedInteger);
                                 }
-                                if(Property.GetValue(RawResult) != null)
-                                {
-                                    Result = (T)RawResult;
-                                    return true;
-                                }
                             }
                         }
                         catch(Exception Ex)
@@ -62,6 +57,8 @@ namespace izolabella.Kacena.REST.Classes.Util
                         }
                     }
                 }
+                Result = (T)RawResult;
+                return true;
             }
             Result = default;
             return false;
