@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using Newtonsoft.Json;
+using izolabella.Kacena.REST.Classes.Attributes;
 
 namespace izolabella.Kacena.REST.Classes.Util
 {
@@ -16,19 +17,16 @@ namespace izolabella.Kacena.REST.Classes.Util
         public static T? ResolvePayload<T>(HttpListenerContext Context)
         {
             T? Payload = default;
-            if (Context.Request.ContentType != null && Context.Request.InputStream != null && Context.Request.InputStream.CanRead)
+            if (Context.Request.ContentType != null && Context.Request.ContentType == "application/json" && Context.Request.InputStream != null && Context.Request.InputStream.CanRead)
             {
-                using(StreamReader ContextReader = new(Context.Request.InputStream))
+                using (StreamReader ContextReader = new(Context.Request.InputStream))
                 {
-                    if (Context.Request.ContentType == "application/json")
-                    {
-                        Payload = JsonConvert.DeserializeObject<T>(ContextReader.ReadToEnd());
-                    }
-                    else if(Context.Request.ContentType == "application/x-www-form-urlencoded")
-                    {
-                        _ = new QueryStringConverter<T>(Context.Request.QueryString).TryConvert(out Payload);
-                    }
+                    Payload = JsonConvert.DeserializeObject<T>(ContextReader.ReadToEnd());
                 }
+            }
+            else
+            {
+                _ = new QueryStringConverter<T>(Context.Request.QueryString).TryConvert(out Payload);
             }
             return Payload;
         }
@@ -44,22 +42,22 @@ namespace izolabella.Kacena.REST.Classes.Util
             if (Context.Request.Url != null)
             {
                 string[] Parts = Context.Request.Url.AbsolutePath.Split('/');
-                string RequestedEndpoint = Parts[1];
-                string? RequestedMethod = Parts.Length > 1 ? Parts[2] : null;
-                if(RequestedMethod != null)
+                if(Parts.Length > 2)
                 {
+                    string RequestedEndpoint = Parts[1];
+                    string RequestedMethod = Parts[2];
                     foreach (IEndpointContainer EndpointContainer in EndpointContainers)
                     {
                         if (RequestedEndpoint.ToLower() == EndpointContainer.Route.ToLower().Trim('/'))
                         {
                             foreach (MethodInfo Method in EndpointContainer.GetType().GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
                             {
-                                if(Method.Name.ToLower() == RequestedMethod.ToLower())
+                                if (Method.Name.ToLower() == RequestedMethod.ToLower() && Method.GetCustomAttribute<KacenaEndpointAttribute>() != null)
                                 {
                                     ParameterInfo? Parameter = Method.GetParameters().FirstOrDefault();
                                     MethodInfo? DynamicResolvePayload = Parameter != null ? typeof(RequestSurgeon).GetMethod("ResolvePayload")?.MakeGenericMethod(Parameter.ParameterType) : null;
                                     object? ResultOfDynamicallyResolvedPayload = DynamicResolvePayload?.Invoke(null, new object[] { Context });
-                                    return new RequestWrapper(Method, EndpointContainer, ResultOfDynamicallyResolvedPayload);
+                                    return new RequestWrapper(Method, EndpointContainer, EndpointContainer, ResultOfDynamicallyResolvedPayload);
                                 }
                             }
                         }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Collections.Specialized;
+using izolabella.Kacena.REST.Classes.Attributes;
 
 namespace izolabella.Kacena.REST.Classes.Util
 {
@@ -30,9 +31,10 @@ namespace izolabella.Kacena.REST.Classes.Util
                     {
                         try
                         {
-                            string PropertyName = Property.Name;
+                            QueryPropertyAttribute? QueryProperty = Property.GetCustomAttribute<QueryPropertyAttribute>();
+                            string PropertyName = QueryProperty != null ? QueryProperty.Name : Property.Name;
                             string? Value = this.RawQueryString[Key];
-                            if(PropertyName == Key && Value != null)
+                            if(PropertyName == Key && Value != null && Property.SetMethod != null)
                             {
                                 Type ObjectRequiresThisType = Property.PropertyType;
                                 if(ObjectRequiresThisType == typeof(string))
@@ -54,8 +56,9 @@ namespace izolabella.Kacena.REST.Classes.Util
                                 }
                             }
                         }
-                        catch
+                        catch(Exception Ex)
                         {
+                            Console.WriteLine(Ex);
                         }
                     }
                 }

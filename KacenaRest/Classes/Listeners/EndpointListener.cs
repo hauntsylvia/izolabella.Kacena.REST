@@ -41,20 +41,21 @@ namespace izolabella.Kacena.REST.Classes.Listeners
         public async Task StartListeningAsync()
         {
             this.HttpListener.Start();
-            HttpListenerContext Context = await this.HttpListener.GetContextAsync();
-            RequestWrapper? SurgeonResult = RequestSurgeon.CutRequest(Context, this.Endpoints.ToArray());
-            if(SurgeonResult != null)
+            while(true)
             {
-                object? Result = SurgeonResult.Invoke();
-                if(Result != null && Context.Response.OutputStream.CanWrite)
+                HttpListenerContext Context = await this.HttpListener.GetContextAsync();
+                RequestWrapper? SurgeonResult = RequestSurgeon.CutRequest(Context, this.Endpoints.ToArray());
+                if (SurgeonResult != null)
                 {
-                    using(StreamWriter StreamWriter = new(Context.Response.OutputStream))
-                    {
-                        StreamWriter.Write(JsonConvert.SerializeObject(Result));
-                    }
+                    object? Result = await SurgeonResult.Invoke();
+                    if (Result != null && Context.Response.OutputStream.CanWrite)
+                    using (StreamWriter StreamWriter = new(Context.Response.OutputStream))
+                        {
+                            StreamWriter.Write(JsonConvert.SerializeObject(Result));
+                        }
                 }
+                Context.Response.OutputStream.Dispose();
             }
-            Context.Response.OutputStream.Dispose();
         }
     }
 }
