@@ -15,21 +15,16 @@ namespace izolabella.Kacena.REST.Classes.Listeners
     {
         public EndpointListener(Uri Prefix)
         {
-            this.httpListener = new();
-            this.httpListener.Prefixes.Add(Prefix.ToString());
-            this.httpListener.IgnoreWriteExceptions = true;
+            this.HttpListener = new();
+            this.HttpListener.Prefixes.Add(Prefix.ToString());
+            this.HttpListener.IgnoreWriteExceptions = true;
             this.Endpoints = new();
             this.Prefix = Prefix;
         }
 
-
         private List<IEndpointContainer> Endpoints { get; }
 
-
-        private readonly HttpListener httpListener;
-
-
-        public HttpListener HttpListener => this.httpListener;
+        public HttpListener HttpListener { get; }
 
         public Uri Prefix { get; }
 
@@ -49,13 +44,19 @@ namespace izolabella.Kacena.REST.Classes.Listeners
                 {
                     object? Result = await SurgeonResult.Invoke();
                     if (Result != null && Context.Response.OutputStream.CanWrite)
-                    using (StreamWriter StreamWriter = new(Context.Response.OutputStream))
-                        {
-                            StreamWriter.Write(JsonConvert.SerializeObject(Result));
-                        }
+                    {
+                        using StreamWriter StreamWriter = new(Context.Response.OutputStream);
+                        StreamWriter.Write(JsonConvert.SerializeObject(Result));
+                    }
                 }
                 Context.Response.OutputStream.Dispose();
             }
+        }
+
+        public Task StopListening()
+        {
+            this.HttpListener.Stop();
+            return Task.CompletedTask;
         }
     }
 }
