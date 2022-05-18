@@ -57,7 +57,7 @@ namespace izolabella.Kacena.REST.Classes.Util
                                     ParameterInfo? Parameter = Method.GetParameters().FirstOrDefault();
                                     MethodInfo? DynamicResolvePayload = Parameter != null ? typeof(RequestSurgeon).GetMethod("ResolvePayload")?.MakeGenericMethod(Parameter.ParameterType) : null;
                                     object? ResultOfDynamicallyResolvedPayload = DynamicResolvePayload?.Invoke(null, new object[] { Context });
-                                    return new RequestWrapper(Method, EndpointContainer, EndpointContainer, ResultOfDynamicallyResolvedPayload);
+                                    return new RequestWrapper(Method, EndpointContainer, ResultOfDynamicallyResolvedPayload);
                                 }
                             }
                         }
