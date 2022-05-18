@@ -28,8 +28,11 @@ namespace izolabella.Kacena.REST.Classes.Structures.Requests
             {
                 object? Return = this.RouteTo.Invoke(this.EndpointContainer, this.Payload != null ? new object[] { this.Payload } : null);
                 if (Return != null && this.RouteTo.ReturnType.GetMethod(nameof(Task.GetAwaiter)) != null)
+                {
                     if (this.RouteTo.ReturnType.IsGenericType)
                         return await (dynamic)Return;
+                }
+
                 return Return;
             }
             catch (Exception Ex)
