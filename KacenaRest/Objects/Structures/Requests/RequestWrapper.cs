@@ -1,4 +1,5 @@
-﻿using System;
+﻿using izolabella.Kacena.REST.Objects.Constants;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -6,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace izolabella.Kacena.REST.Classes.Structures.Requests
+namespace izolabella.Kacena.REST.Objects.Structures.Requests
 {
     internal class RequestWrapper
     {
@@ -20,9 +21,13 @@ namespace izolabella.Kacena.REST.Classes.Structures.Requests
         public MethodInfo RouteTo { get; }
         public IEndpointContainer Endpoint { get; }
         public object? Payload { get; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task<object?> Invoke()
         {
-            try
+            if (this.RouteTo.GetParameters().Length == 0 || this.Payload != null)
             {
                 object? Return = this.RouteTo.Invoke(this.Endpoint, this.Payload != null ? new object[] { this.Payload } : null);
                 if (Return != null && this.RouteTo.ReturnType.GetMethod(nameof(Task.GetAwaiter)) != null)
@@ -30,13 +35,11 @@ namespace izolabella.Kacena.REST.Classes.Structures.Requests
                     if (this.RouteTo.ReturnType.IsGenericType)
                         return await (dynamic)Return;
                 }
-
                 return Return;
             }
-            catch (Exception Ex)
+            else
             {
-                Console.WriteLine(Ex);
-                throw;
+                return Errors.MissingPayload;
             }
         }
     }

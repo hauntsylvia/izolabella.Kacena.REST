@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace izolabella.Kacena.REST.Classes.Attributes
+namespace izolabella.Kacena.REST.Objects.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class QueryPropertyAttribute : Attribute

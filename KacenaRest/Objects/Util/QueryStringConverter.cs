@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Collections.Specialized;
-using izolabella.Kacena.REST.Classes.Attributes;
+using izolabella.Kacena.REST.Objects.Attributes;
 
-namespace izolabella.Kacena.REST.Classes.Util
+namespace izolabella.Kacena.REST.Objects.Util
 {
     public class QueryStringConverter<T>
     {
@@ -25,7 +25,7 @@ namespace izolabella.Kacena.REST.Classes.Util
             object? RawResult = Activator.CreateInstance(ToInstantiate);
             if (RawResult != null)
             {
-                foreach(string Key in this.RawQueryString.Keys)
+                foreach (string Key in this.RawQueryString.Keys)
                 {
                     foreach (PropertyInfo Property in ToInstantiate.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                     {
@@ -34,24 +34,22 @@ namespace izolabella.Kacena.REST.Classes.Util
                             QueryPropertyAttribute? QueryProperty = Property.GetCustomAttribute<QueryPropertyAttribute>();
                             string PropertyName = QueryProperty != null ? QueryProperty.Name : Property.Name;
                             string? Value = this.RawQueryString[Key];
-                            if(PropertyName == Key && Value != null && Property.SetMethod != null)
+                            if (PropertyName == Key && Value != null && Property.SetMethod != null)
                             {
                                 Type ObjectRequiresThisType = Property.PropertyType;
-                                if(ObjectRequiresThisType == typeof(string))
-                                {
+                                if (ObjectRequiresThisType == typeof(string))
                                     Property.SetValue(RawResult, Value);
-                                }
-                                else if(ObjectRequiresThisType == typeof(bool))
+                                else if (ObjectRequiresThisType == typeof(bool))
                                 {
                                     Property.SetValue(RawResult, Value.ToLower() == "true");
                                 }
-                                else if(ObjectRequiresThisType == typeof(int) && int.TryParse(Value, out int ProvidedInteger))
+                                else if (ObjectRequiresThisType == typeof(int) && int.TryParse(Value, out int ProvidedInteger))
                                 {
                                     Property.SetValue(RawResult, ProvidedInteger);
                                 }
                             }
                         }
-                        catch(Exception Ex)
+                        catch (Exception Ex)
                         {
                             Console.WriteLine(Ex);
                         }

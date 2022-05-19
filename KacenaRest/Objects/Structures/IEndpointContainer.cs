@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace izolabella.Kacena.REST.Classes.Structures
+namespace izolabella.Kacena.REST.Objects.Structures
 {
     public interface IEndpointContainer
     {

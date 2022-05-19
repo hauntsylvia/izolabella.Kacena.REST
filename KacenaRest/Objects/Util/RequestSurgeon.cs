@@ -1,6 +1,4 @@
-﻿using izolabella.Kacena.REST.Classes.Structures;
-using izolabella.Kacena.REST.Classes.Structures.Requests;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -8,9 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using Newtonsoft.Json;
-using izolabella.Kacena.REST.Classes.Attributes;
+using izolabella.Kacena.REST.Objects.Structures.Requests;
+using izolabella.Kacena.REST.Objects.Attributes;
+using izolabella.Kacena.REST.Objects.Structures;
 
-namespace izolabella.Kacena.REST.Classes.Util
+namespace izolabella.Kacena.REST.Objects.Util
 {
     internal class RequestSurgeon
     {
@@ -42,7 +42,7 @@ namespace izolabella.Kacena.REST.Classes.Util
             if (Context.Request.Url != null)
             {
                 string[] Parts = Context.Request.Url.AbsolutePath.Split('/');
-                if(Parts.Length > 2)
+                if (Parts.Length > 2)
                 {
                     string RequestedEndpoint = Parts[1];
                     string RequestedMethod = Parts[2];
