@@ -9,19 +9,27 @@ using Newtonsoft.Json;
 using izolabella.Kacena.REST.Objects.Structures.Requests;
 using izolabella.Kacena.REST.Objects.Attributes;
 using izolabella.Kacena.REST.Objects.Structures;
+using izolabella.Kacena.REST.Objects.Constants;
 
 namespace izolabella.Kacena.REST.Objects.Util
 {
     internal class RequestSurgeon
     {
-        public static T? ResolvePayload<T>(HttpListenerContext Context)
+        public static object? ResolvePayload<T>(HttpListenerContext Context)
         {
             T? Payload = default;
             if (Context.Request.ContentType != null && Context.Request.ContentType == "application/json" && Context.Request.InputStream != null && Context.Request.InputStream.CanRead)
             {
                 using (StreamReader ContextReader = new(Context.Request.InputStream))
                 {
-                    Payload = JsonConvert.DeserializeObject<T>(ContextReader.ReadToEnd());
+                    try
+                    {
+                        Payload = JsonConvert.DeserializeObject<T>(ContextReader.ReadToEnd());
+                    }
+                    catch(JsonSerializationException)
+                    {
+                        return Errors.WrongEntity;
+                    }
                 }
             }
             else

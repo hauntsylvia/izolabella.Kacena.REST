@@ -29,13 +29,21 @@ namespace izolabella.Kacena.REST.Objects.Structures.Requests
         {
             if (this.RouteTo.GetParameters().Length == 0 || this.Payload != null)
             {
-                object? Return = this.RouteTo.Invoke(this.Endpoint, this.Payload != null ? new object[] { this.Payload } : null);
-                if (Return != null && this.RouteTo.ReturnType.GetMethod(nameof(Task.GetAwaiter)) != null)
+                ParameterInfo? RouteToParameter = this.RouteTo.GetParameters().FirstOrDefault();
+                if((RouteToParameter != null && this.Payload != null && RouteToParameter.ParameterType.IsInstanceOfType(this.Payload)) || (this.Payload == null))
                 {
-                    if (this.RouteTo.ReturnType.IsGenericType)
-                        return await (dynamic)Return;
+                    object? Return = this.RouteTo.Invoke(this.Endpoint, this.Payload != null ? new object[] { this.Payload } : null);
+                    if (Return != null && this.RouteTo.ReturnType.GetMethod(nameof(Task.GetAwaiter)) != null)
+                    {
+                        if (this.RouteTo.ReturnType.IsGenericType)
+                            return await (dynamic)Return;
+                    }
+                    return Return;
                 }
-                return Return;
+                else
+                {
+                    return Errors.WrongEntity;
+                }
             }
             else
             {
