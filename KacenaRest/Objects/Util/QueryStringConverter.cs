@@ -38,7 +38,9 @@ namespace izolabella.Kacena.REST.Objects.Util
                             {
                                 Type ObjectRequiresThisType = Property.PropertyType;
                                 if (ObjectRequiresThisType == typeof(string))
+                                {
                                     Property.SetValue(RawResult, Value);
+                                }
                                 else if (ObjectRequiresThisType == typeof(bool))
                                 {
                                     Property.SetValue(RawResult, Value.ToLower() == "true");

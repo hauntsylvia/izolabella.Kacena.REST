@@ -20,16 +20,14 @@ namespace izolabella.Kacena.REST.Objects.Util
             T? Payload = default;
             if (Context.Request.ContentType != null && Context.Request.ContentType == "application/json" && Context.Request.InputStream != null && Context.Request.InputStream.CanRead)
             {
-                using (StreamReader ContextReader = new(Context.Request.InputStream))
+                using StreamReader ContextReader = new(Context.Request.InputStream);
+                try
                 {
-                    try
-                    {
-                        Payload = JsonConvert.DeserializeObject<T>(ContextReader.ReadToEnd());
-                    }
-                    catch(JsonSerializationException)
-                    {
-                        return Errors.WrongEntity;
-                    }
+                    Payload = JsonConvert.DeserializeObject<T>(ContextReader.ReadToEnd());
+                }
+                catch (JsonSerializationException)
+                {
+                    return Errors.WrongEntity;
                 }
             }
             else

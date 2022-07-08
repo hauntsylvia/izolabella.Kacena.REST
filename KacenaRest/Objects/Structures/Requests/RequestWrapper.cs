@@ -35,8 +35,10 @@ namespace izolabella.Kacena.REST.Objects.Structures.Requests
                     object? Return = this.RouteTo.Invoke(this.Endpoint, this.Payload != null ? new object[] { this.Payload } : null);
                     if (Return != null && this.RouteTo.ReturnType.GetMethod(nameof(Task.GetAwaiter)) != null)
                     {
-                        if (this.RouteTo.ReturnType.IsGenericType)
+                         if (this.RouteTo.ReturnType.IsGenericType)
+                        {
                             return await (dynamic)Return;
+                        }
                     }
                     return Return;
                 }
